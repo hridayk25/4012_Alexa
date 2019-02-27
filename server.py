@@ -3,7 +3,7 @@
 from flask import Flask, request
 from flask_ask import Ask, statement, question, session
 import json
-from order import order
+from order import Order
 import re
 
 app = Flask(__name__)
@@ -14,30 +14,29 @@ def homepage():
     return "hi"
 @ask.launch
 def start_skill():
+    print "started skill"
     welcome_message = "Welcome. What would you like?"
     return question(welcome_message)
 @ask.intent("Shengus")
-def share_headlines():
-    msg = "Did you want to order the following items? "
+def orderFood():
+    print "order intent invoked"
+    msg = "Did you want to order the following items?"
     food = request.get_json()
-    data = food["request"]["intent"]["slots"]["food"]["value"]
-    # with open('data.json', 'w') as outfile:
-    #     json.dump(data, outfile)
-    curOrder = order()
-    # for item in curOrder.dict:
-    #     print(curOrder.dict[item])
-    items = data.split(" ")
-    print(items)
-    for i in range(len(items)):
-        # print(items[i])
-        if (items[i] ==  "a" or items[i] ==  "an"):
-            # print(items[i+1])
-            curOrder.addItem(items[i+1])
+    text = food["request"]["intent"]["slots"]["food"]["value"]
+    curOrder = Order()
+    curOrder.addFromText(text)
     myOrd = curOrder.printOrder()
-
-    return question(msg + myOrd[:-3])
+    return question(msg + myOrd)
+    # return statement("heres your food")
+@ask.intent("YesIntent")
+def yes_intent():
+	return statement("Your order has been placed")
 @ask.intent("NoIntent")
 def no_intent():
+    bye = "bye"
+    return statement(bye)
+@ask.intent("FallbackIntent")
+def fallback_intent():
     bye = "bye"
     return statement(bye)
 
