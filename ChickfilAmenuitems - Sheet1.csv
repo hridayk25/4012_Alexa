@@ -1,19 +1,19 @@
 Menu Item,Category,Price,Calories
-Chick-fil-A Chicken Biscuit,Breakfast,2.65,440
-Chick-n-Minis,Breakfast,3.49,87.5
+Chick fil A Chicken Biscuit,Breakfast,2.65,440
+Chicken Minis,Breakfast,3.49,87.5
 Egg White Grill,Breakfast,3.95,300
-Bacon Egg & Cheese Biscuit,Breakfast,3.09,440
-Sausage Egg & Cheese Biscuit,Breakfast,3.09,670
+Bacon Egg and Cheese Biscuit,Breakfast,3.09,440
+Sausage Egg and Cheese Biscuit,Breakfast,3.09,670
 Buttered Biscuit,Breakfast,1.09,310
-Sunflower Multigrin Bagel,Breakfast,2.05,290
+Sunflower Multigrain Bagel,Breakfast,2.05,290
 Hash Browns,Breakfast,1.19,250
 Greek Yogurt Parfait,Breakfast,3.29,250
 Fruit Cup,Breakfast,3.25,50
-Chicken Egg & Cheese Bagel,Breakfast,3.95,460
+Chicken Egg and Cheese Bagel,Breakfast,3.95,460
 Hash Brown Scramble Burrito,Breakfast,3.89,690
 Hash Brown Scramble Bowl,Breakfast,3.89,460
-Bacon Egg & Cheese Muffin,Breakfast,3.29,310
-Sausage Egg & Cheese Muffin,Breakfast,3.29,550
+Bacon Egg and Cheese Muffin,Breakfast,3.29,310
+Sausage Egg and Cheese Muffin,Breakfast,3.29,550
 Chicken Sandwich,Entrees,3.79,440
 Deluxe Sandwich,Entrees,4.39,500
 Spicy Chicken Sandwich,Entrees,4.09,450
@@ -21,7 +21,7 @@ Spicy Deluxe Sandwich,Entrees,4.69,540
 Grilled Chicken Sandwich,Entrees,5.15,310
 Grilled Chicken Club,Entrees,6.55,440
 Nuggets,Entrees,3.85,260
-Chick-n-Strips,Entrees,4.19,330
+Chicken Strips,Entrees,4.19,330
 Grilled Cool Wrap,Entrees,5.99,350
 Grilled Nuggets,Entrees,4.65,140
 Spicy Southwest Salad,Salads,8.19,440
@@ -41,10 +41,10 @@ Cole Slaw,Sides,2.85,310
 Cornbread,Sides,2.85,380
 Waffle Potato Chips,Sides,1.85,220
 Nuggets KM,Kid's Meal,4.75,270
-Chick-n-Strips KM,Kid's Meal,4.69,320
+Chicken Strips KM,Kid's Meal,4.69,320
 Grilled Nuggets KM,Kid's Meal,5.25,190
 Chocolate Milkshake,Treats,3.39,580
-Cookies & Cream Milkshake,Treats,3.39,610
+Cookies and Cream Milkshake,Treats,3.39,610
 Strawberry Milkshake,Treats,3.39,610
 Vanilla Milkshake,Treats,3.39,520
 Frosted Coffee,Treats,3.39,240
@@ -64,8 +64,8 @@ Coffee,Drinks,1.75,5
 Iced Coffee,Drinks,2.69,140
 Gallon Beverages,Drinks,11,2090
 Diet Lemonade,Drinks,1.99,50
-Freshly-Brewed Iced Tea Unsweetened,Drinks,1.75,0
-Chick-fil-A Sauce,Sauces,0,140
+Freshly Brewed Iced Tea Unsweetened,Drinks,1.75,0
+Chick fil A Sauce,Sauces,0,140
 Polynesian Sauce,Sauces,0,110
 Honey Mustard Sauce,Sauces,0,45
 Garden Herb Ranch Sauce,Sauces,0,140
