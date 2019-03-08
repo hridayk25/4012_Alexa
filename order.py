@@ -1,19 +1,11 @@
 import nltk
 from nltk.tokenize import MWETokenizer
+import parse_dict
 import string
 
 class Order:
     def __init__(self):
-        self.items = {
-            "spicy_chicken_sandwich":0,
-            "chicken_sandwich":0,
-            "fries":0,
-            "lemonade" : 0,
-            "milkshake": 0,
-            "salad": 0,
-            "fruit_cup":0,
-            "hash_browns":0
-        }
+        self.foodTokenizer, self.items = parse_dict.init_base_order_tokenizer()
 
     def addFromText(self,text):
         stopWords = nltk.corpus.stopwords.words()
@@ -26,7 +18,7 @@ class Order:
                     'spici':'spicy', 'spici_chicken_sandwich': 'spicy_chicken_sandwich',
                     'origin_chicken_sandwich': 'chicken_sandwich'}
 
-        foodTokenizer = self.instantiateTokenizer()
+        foodTokenizer = self.foodTokenizer
         tokenizedOrder = foodTokenizer.tokenize(self.stripAndStemText(text))
 
         finalOrder = []
@@ -51,18 +43,6 @@ class Order:
             except:
                 i+=1
                 pass
-
-    def instantiateTokenizer(self):
-        foodTokenizer = MWETokenizer()
-        foodTokenizer.add_mwe(('origin','chicken', 'sandwich'))
-        foodTokenizer.add_mwe(('chicken', 'sandwich'))
-        foodTokenizer.add_mwe(('spici','chicken', 'sandwich'))
-        foodTokenizer.add_mwe(('chicken', 'biscuit'))
-        foodTokenizer.add_mwe(('chicken', 'nugget'))
-        foodTokenizer.add_mwe(('chicken', 'nugget'))
-        foodTokenizer.add_mwe(('hash', 'browns'))
-        foodTokenizer.add_mwe(('fruit', 'cup'))
-        return foodTokenizer 
 
 
     def stripAndStemText(self,text):
