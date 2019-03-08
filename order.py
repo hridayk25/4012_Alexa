@@ -31,12 +31,12 @@ class Order:
 
         finalOrder = []
         for t in tokenizedOrder:
-            if t in unit_number:
-                print t
-                finalOrder.append(unit_number[t])
-            elif t in synonyms:
-                if(len(finalOrder)>0 and type(finalOrder[-1])!=int):
-                    finalOrder.append(1)
+            # if t in unit_number:
+            #     print t
+            #     finalOrder.append(unit_number[t])
+            if t in synonyms:
+                # if(len(finalOrder)>0 and type(finalOrder[-1])!=int):
+                finalOrder.append(1)
                 finalOrder.append(synonyms[t])
             elif t not in stopWords:
                 finalOrder.append(1)
