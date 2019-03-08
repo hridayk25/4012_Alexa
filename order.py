@@ -20,29 +20,20 @@ class Order:
 
         foodTokenizer = self.foodTokenizer
         tokenizedOrder = foodTokenizer.tokenize(self.stripAndStemText(text))
-
-        finalOrder = []
+        tokenizedOrder.reverse()
+        i = 0
         for t in tokenizedOrder:
-            # if t in unit_number:
-            #     print t
-            #     finalOrder.append(unit_number[t])
-            if t in synonyms:
-                # if(len(finalOrder)>0 and type(finalOrder[-1])!=int):
-                finalOrder.append(1)
-                finalOrder.append(synonyms[t])
-            elif t not in stopWords:
-                finalOrder.append(1)
-                finalOrder.append(t)
-        finalOrder.reverse()
-        print finalOrder
-        i = 0  
-        while i < len(finalOrder):
-            try:
-                self.items[finalOrder[i]] += finalOrder[i+1]
-                i+=2
-            except:
-                i+=1
-                pass
+            if t in self.items:
+                try:
+                    self.items[t] += int(tokenizedOrder[i+1])
+                except:
+                    self.items[t] += 1
+            elif t in synonyms:
+                try:
+                    self.items[synonyms[t]] += int(tokenizedOrder[i+1])
+                except:
+                    self.items[synonyms[t]] += 1
+            i+=1
 
 
     def stripAndStemText(self,text):
