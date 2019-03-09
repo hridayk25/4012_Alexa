@@ -59,3 +59,8 @@ class Order:
             if self.items[item] != 0:
                 res = res + " " + str(self.items[item]) + " " + item.replace("_"," ") + " and"
         return res[:-3]
+
+    def resetDict(self):
+
+        for item in self.items:
+            self.items[item] = 0
