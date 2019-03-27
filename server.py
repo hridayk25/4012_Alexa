@@ -31,7 +31,7 @@ def orderFood():
     # return statement("heres your food")
 @ask.intent("YesIntent")
 def yes_intent():
-
+    # log the order
     f = open('order.log','a')
     f.write(str(datetime.datetime.now()))
     f.write('\t')
