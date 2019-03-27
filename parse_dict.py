@@ -7,7 +7,7 @@ def init_base_order_tokenizer():
     p = nltk.PorterStemmer()
     food_tokenizer = MWETokenizer()
     food_items = {}
-    with open('ChickfilAmenuitems - Sheet1.csv') as csvfile:
+    with open('sheet1.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             food_item = row['Menu Item'].replace(' ', '_').lower()
