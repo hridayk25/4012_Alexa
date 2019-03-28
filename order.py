@@ -2,7 +2,7 @@ import nltk
 from nltk.tokenize import MWETokenizer
 import parse_dict
 import string
-
+## cannot handle waffle fries
 class Order:
     def __init__(self):
         self.foodTokenizer, self.items = parse_dict.init_base_order_tokenizer()
@@ -75,14 +75,9 @@ class Order:
 
         foodTokenizer = self.foodTokenizer
         tokenizedOrder = foodTokenizer.tokenize(self.stripAndStemText(text))
-<<<<<<< HEAD
         tokenizedOrder.reverse()
         i = 0
-=======
         print tokenizedOrder
-        finalOrder = []
-
->>>>>>> 213285b83d57b4b48fb79d2c9b7168e5164977b6
         for t in tokenizedOrder:
             if t in self.items:
                 try:
@@ -90,31 +85,12 @@ class Order:
                 except:
                     self.items[t] += 1
             elif t in synonyms:
-<<<<<<< HEAD
+                print t
                 try:
                     self.items[synonyms[t]] += int(tokenizedOrder[i+1])
                 except:
                     self.items[synonyms[t]] += 1
             i+=1
-=======
-                if(len(finalOrder)>0 and type(finalOrder[-1])!=int):
-                    finalOrder.append(1)
-                finalOrder.append(synonyms[t])
-            elif t not in stopWords:
-                finalOrder.append(1)
-                finalOrder.append(t)
-        finalOrder.append(1)
-        finalOrder.reverse()
-        i = 0 
-        print finalOrder
-        while i < len(finalOrder):
-            try:
-                self.items[finalOrder[i]] += finalOrder[i-1]
-                i+=2
-            except:
-                i+=1
-                pass
->>>>>>> 213285b83d57b4b48fb79d2c9b7168e5164977b6
 
 
     def stripAndStemText(self,text):
