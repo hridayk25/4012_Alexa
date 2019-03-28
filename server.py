@@ -25,7 +25,7 @@ def orderFood():
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
-    curOrder.addFromText(text)
+    curOrder.add_items(text)
     myOrd = curOrder.printOrder()
     return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
     # return statement("heres your food")
@@ -38,6 +38,8 @@ def complete_intent():
     f.write(curOrder.printOrder())
     f.write('\n')
     f.close()
+
+    curOrder.resetDict()
     return question("Your order has been placed. To order something else, say new order")
 @ask.intent("NoIntent")
 def no_intent():
@@ -46,7 +48,6 @@ def no_intent():
 @ask.intent("NewOrder")
 def newOrder():
     welcome_message = "Order increment. Welcome. What would you like?"
-    curOrder.resetDict()
     return question(welcome_message)
 @ask.intent("FallbackIntent")
 def fallback_intent():
@@ -58,7 +59,8 @@ def add_intent():
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
-    curOrder.addFromText(text)
+    print(text)
+    curOrder.add_items(text)
     myOrd = curOrder.printOrder()
     return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
 
@@ -67,7 +69,7 @@ def remove_intent():
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
-    curOrder.removeFromText(text)
+    curOrder.remove_items(text)
     myOrd = curOrder.printOrder()
     return question(
         msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")

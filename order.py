@@ -1,23 +1,24 @@
 import nltk
 from nltk.tokenize import MWETokenizer
 import parse_dict
+import re
 import string
 ## cannot handle waffle fries
 class Order:
     def __init__(self):
         self.foodTokenizer, self.items = parse_dict.init_base_order_tokenizer()
 
-    def addFromText(self,text):
+    def modify(self, text):
         stopWords = nltk.corpus.stopwords.words()
-        unit_number = {'0':0, '1':1, '2':2,'to':2, '3':3, '4':4, 
-                   '5':5 , '6':6, '7':7, '8':8, '9':9,
-                   '10':10, '11':11, '12':12, '13':13,
-                   '14':14, '15':15, '16':16, '17':17,
-                   '18':18, '19':19, '20':20}
-        synonyms = {'lemonad':'lemonade', 'milkshak':'milkshake','fri':'fries',
+        unit_number = {'0': 0, '1': 1, '2': 2, 'to': 2, '3': 3, '4': 4,
+                       '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+                       '10': 10, '11': 11, '12': 12, '13': 13,
+                       '14': 14, '15': 15, '16': 16, '17': 17,
+                       '18': 18, '19': 19, '20': 20}
+        synonyms = {'lemonad': 'lemonade', 'milkshak': 'milkshake', 'fri': 'fries',
                     'spici_chicken_sandwich': 'spicy_chicken_sandwich',
                     'grill_cool_wrap': 'grilled_cool_wrap',
-                    'origin_chicken_sandwich': 'chicken_sandwich', 
+                    'origin_chicken_sandwich': 'chicken_sandwich',
                     'spici_southwest_salad': 'spicy_southwest_salad',
                     'waffl_potato_fri': 'waffle_potato_fries',
                     'waffl_potato_chip': 'waffle_potato_chips',
@@ -74,10 +75,15 @@ class Order:
                     }
 
         foodTokenizer = self.foodTokenizer
+        text = re.sub('[^\w\s]', '', text)
         tokenizedOrder = foodTokenizer.tokenize(self.stripAndStemText(text))
         tokenizedOrder.reverse()
-        i = 0
         print tokenizedOrder
+        return tokenizedOrder, synonyms
+
+    def add_items(self, text):
+        tokenizedOrder, synonyms = self.modify(text)
+        i = 0
         for t in tokenizedOrder:
             if t in self.items:
                 try:
@@ -90,6 +96,24 @@ class Order:
                     self.items[synonyms[t]] += int(tokenizedOrder[i+1])
                 except:
                     self.items[synonyms[t]] += 1
+            i+=1
+
+
+    def remove_items(self, text):
+        tokenizedOrder, synonyms = self.modify(text)
+        i = 0
+        for t in tokenizedOrder:
+            if t in self.items:
+                try:
+                    self.items[t] -= int(tokenizedOrder[i+1])
+                except:
+                    self.items[t] -= 1
+            elif t in synonyms:
+                print t
+                try:
+                    self.items[synonyms[t]] -= int(tokenizedOrder[i+1])
+                except:
+                    self.items[synonyms[t]] -= 1
             i+=1
 
 
@@ -107,3 +131,7 @@ class Order:
             if self.items[item] != 0:
                 res = res + " " + str(self.items[item]) + " " + item.replace("_"," ") + " and"
         return res[:-3]
+
+    def resetDict(self):
+        for item in self.items:
+            self.items[item] = 0
