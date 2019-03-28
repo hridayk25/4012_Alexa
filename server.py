@@ -27,10 +27,10 @@ def orderFood():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.addFromText(text)
     myOrd = curOrder.printOrder()
-    return question(msg + myOrd)
+    return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
     # return statement("heres your food")
-@ask.intent("YesIntent")
-def yes_intent():
+@ask.intent("CompleteIntent")
+def complete_intent():
     # log the order
     f = open('order.log','a')
     f.write(str(datetime.datetime.now()))
@@ -52,6 +52,25 @@ def newOrder():
 def fallback_intent():
     bye = "bye"
     return statement(bye)
+
+@ask.intent("addIntent")
+def add_intent():
+    msg = "Did you want to order the following items?"
+    food = request.get_json()
+    text = food["request"]["intent"]["slots"]["food"]["value"]
+    curOrder.addFromText(text)
+    myOrd = curOrder.printOrder()
+    return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+
+@ask.intent("removeIntent")
+def remove_intent():
+    msg = "Did you want to order the following items?"
+    food = request.get_json()
+    text = food["request"]["intent"]["slots"]["food"]["value"]
+    curOrder.removeFromText(text)
+    myOrd = curOrder.printOrder()
+    return question(
+        msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
 
 if __name__ == '__main__':
     app.run(debug=True)
