@@ -1,17 +1,20 @@
 import csv
+import nltk
 from nltk.tokenize import MWETokenizer
 
 
 def init_base_order_tokenizer():
+    p = nltk.PorterStemmer()
     food_tokenizer = MWETokenizer()
     food_items = {}
-    with open('ChickfilAmenuitems - Sheet1.csv') as csvfile:
+    with open('sheet1.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             food_item = row['Menu Item'].replace(' ', '_').lower()
             food_items[food_item] = 0
-            items = row['Menu Item'].split(' ')
-            if len(items) > 1:
-                item_words = tuple(row['Menu Item'].lower().split(' '))
-                food_tokenizer.add_mwe(item_words)
+
+            items_stem = [p.stem(i) for i in row['Menu Item'].lower().split(' ')]
+            if len(items_stem) > 1:
+                food_tokenizer.add_mwe(tuple(items_stem))
+    
     return food_tokenizer, food_items

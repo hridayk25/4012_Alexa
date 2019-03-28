@@ -5,9 +5,11 @@ from flask_ask import Ask, statement, question, session
 import json
 from order import Order
 import re
+import datetime
 
 app = Flask(__name__)
 ask = Ask(app, "/")
+curOrder = Order()
 
 @app.route('/')
 def homepage():
@@ -24,18 +26,29 @@ def orderFood():
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
-    curOrder = Order()
     curOrder.addFromText(text)
     myOrd = curOrder.printOrder()
     return question(msg + myOrd)
     # return statement("heres your food")
 @ask.intent("YesIntent")
 def yes_intent():
-	return statement("Your order has been placed")
+    # log the order
+    f = open('order.log','a')
+    f.write(str(datetime.datetime.now()))
+    f.write('\t')
+    f.write(curOrder.printOrder())
+    f.write('\n')
+    f.close()
+    return question("Your order has been placed. To order something else, say new order")
 @ask.intent("NoIntent")
 def no_intent():
     bye = "bye"
     return statement(bye)
+@ask.intent("NewOrder")
+def newOrder():
+    welcome_message = "Order increment. Welcome. What would you like?"
+    curOrder.resetDict()
+    return question(welcome_message)
 @ask.intent("FallbackIntent")
 def fallback_intent():
     bye = "bye"
