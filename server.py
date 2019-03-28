@@ -1,6 +1,6 @@
 # https://stackoverflow.com/questions/2835559/parsing-values-from-a-json-file
 # https://techtutorialsx.com/2017/01/07/flask-parsing-json-data/
-from flask import Flask, request
+from flask import Flask, request, json, render_template
 from flask_ask import Ask, statement, question, session
 import json
 from order import Order
@@ -16,7 +16,8 @@ def homepage():
 def start_skill():
     print "started skill"
     welcome_message = "Welcome. What would you like?"
-    return question(welcome_message)
+    return question(welcome_message).standard_card(title='Welcome', text='What would you like?', large_image_url='https://16jhl82mq2imp4wet2y0c7og-wpengine.netdna-ssl.com/wp-content/uploads/2010/01/Chick-fil-A-Logo-Update-RBMM.jpg')
+
 @ask.intent("Shengus")
 def orderFood():
     print "order intent invoked"
