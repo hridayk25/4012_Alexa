@@ -8,15 +8,8 @@ import sys
 class Order:
     def __init__(self):
         self.foodTokenizer, self.items = parse_dict.init_base_order_tokenizer()
-
-    def modify(self, text):
-        stopWords = nltk.corpus.stopwords.words()
-        unit_number = {'0': 0, '1': 1, '2': 2, 'to': 2, 'too': 2, '3': 3, '4': 4, 'for': 4,
-                       '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-                       '10': 10, '11': 11, '12': 12, '13': 13,
-                       '14': 14, '15': 15, '16': 16, '17': 17,
-                       '18': 18, '19': 19, '20': 20, 'all': sys.maxint}
-        synonyms = {'lemonad': 'lemonade', 'milkshak': 'vanilla_milkshake', 'fri': 'waffle_potato_fries',
+        self.unit_number = {'to': 2, 'too': 2, 'for': 4, 'all': sys.maxint}
+        self.synonyms = {'lemonad': 'lemonade', 'milkshak': 'vanilla_milkshake', 'fri': 'waffle_potato_fries',
                     'spici_chicken_sandwich': 'spicy_chicken_sandwich',
                     'grill_cool_wrap': 'grilled_cool_wrap',
                     'origin_chicken_sandwich': 'chicken_sandwich',
@@ -76,52 +69,61 @@ class Order:
                     'freshli_brew_ice_tea_unsweeten': 'freshly_brewed_iced_tea_unsweetened'
                     }
 
+    def modify(self, text):
         foodTokenizer = self.foodTokenizer
         text = re.sub('[^\w\s]', '', text)
         tokenizedOrder = foodTokenizer.tokenize(self.stripAndStemText(text))
         tokenizedOrder.reverse()
         print tokenizedOrder
-        return tokenizedOrder, synonyms
+        return tokenizedOrder
 
     def add_items(self, text):
-        tokenizedOrder, synonyms = self.modify(text)
+        tokenizedOrder = self.modify(text)
         i = 0
         for t in tokenizedOrder:
+            possibleNumber = tokenizedOrder[i+1]
             if t in self.items:
-                try:
-                    self.items[t] += int(tokenizedOrder[i+1])
-                except:
-                    self.items[t] += 1
-            elif t in synonyms:
-                print t
-                try:
-                    self.items[synonyms[t]] += int(tokenizedOrder[i+1])
-                except:
-                    self.items[synonyms[t]] += 1
+                if possibleNumber in self.unit_number:
+                    self.items[t] += self.unit_number[possibleNumber]
+                else:
+                    try:
+                        self.items[t] += int(tokenizedOrder[i+1])
+                    except:
+                        self.items[t] += 1
+            elif t in self.synonyms:
+                if possibleNumber in self.unit_number:
+                    self.items[self.synonyms[t]] += self.unit_number[possibleNumber]
+                else:
+                    try:
+                        self.items[self.synonyms[t]] += int(tokenizedOrder[i+1])
+                    except:
+                        self.items[self.synonyms[t]] += 1
             i+=1
 
 
     def remove_items(self, text):
-        tokenizedOrder, synonyms = self.modify(text)
+        tokenizedOrder = self.modify(text)
         i = 0
         for t in tokenizedOrder:
+            possibleNumber = tokenizedOrder[i+1]
             if t in self.items:
-                if self.items[t] < int(tokenizedOrder[i+1]):
-                    self.items[t] = 0
+                if possibleNumber in self.unit_number:
+                    self.items[t] -= self.unit_number[possibleNumber]
                 else:
                     try:
                         self.items[t] -= int(tokenizedOrder[i+1])
                     except:
                         self.items[t] -= 1
-            elif t in synonyms:
-                print t
-                if self.items[synonyms[t]] < int(tokenizedOrder[i+1]):
-                    self.items[synonms[t]] = 0
+                self.items[t] = max(self.items[t],0)
+            elif t in self.synonyms:
+                if possibleNumber in self.unit_number:
+                    self.items[self.synonyms[t]] -= self.unit_number[possibleNumber]
                 else:
                     try:
-                        self.items[synonyms[t]] -= int(tokenizedOrder[i+1])
+                        self.items[self.synonyms[t]] -= int(tokenizedOrder[i+1])
                     except:
-                        self.items[synonyms[t]] -= 1
+                        self.items[self.synonyms[t]] -= 1
+                self.items[self.synonyms[t]] = max(self.items[self.synonyms[t]],0)
             i+=1
 
 
@@ -138,7 +140,7 @@ class Order:
         for item in self.items:
             if self.items[item] != 0:
                 res = res + " " + str(self.items[item]) + " " + item.replace("_"," ") + ", "
-        return res[:-3]
+        return res[:-2]
 
     def resetDict(self):
         for item in self.items:
