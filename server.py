@@ -74,5 +74,12 @@ def remove_intent():
     return question(
         msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
 
+
+@ask.intent("cancelOrderIntent")
+def cancel_order_intent():
+    curOrder.resetDict()
+    return question("Your order has been cancelled. What would you like?")
+
+
 if __name__ == '__main__':
     app.run(debug=True)

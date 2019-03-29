@@ -10,17 +10,18 @@ class Order:
 
     def modify(self, text):
         stopWords = nltk.corpus.stopwords.words()
-        unit_number = {'0': 0, '1': 1, '2': 2, 'to': 2, '3': 3, '4': 4,
+        unit_number = {'0': 0, '1': 1, '2': 2, 'to': 2, 'too': 2, '3': 3, '4': 4, 'for': 4,
                        '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
                        '10': 10, '11': 11, '12': 12, '13': 13,
                        '14': 14, '15': 15, '16': 16, '17': 17,
-                       '18': 18, '19': 19, '20': 20}
-        synonyms = {'lemonad': 'lemonade', 'milkshak': 'milkshake', 'fri': 'fries',
+                       '18': 18, '19': 19, '20': 20, 'all': Integer.MAX_VALUE}
+        synonyms = {'lemonad': 'lemonade', 'milkshak': 'vanilla_milkshake', 'fri': 'waffle_potato_fries',
                     'spici_chicken_sandwich': 'spicy_chicken_sandwich',
                     'grill_cool_wrap': 'grilled_cool_wrap',
                     'origin_chicken_sandwich': 'chicken_sandwich',
                     'spici_southwest_salad': 'spicy_southwest_salad',
                     'waffl_potato_fri': 'waffle_potato_fries',
+                    'waffl_fri': 'waffle_potato_fries',
                     'waffl_potato_chip': 'waffle_potato_chips',
                     'chocol_milkshak': 'chocolate_milkshake',
                     'cooki_and_cream_milkshak': 'cookies_and_cream_milkshake',
@@ -104,16 +105,22 @@ class Order:
         i = 0
         for t in tokenizedOrder:
             if t in self.items:
-                try:
-                    self.items[t] -= int(tokenizedOrder[i+1])
-                except:
-                    self.items[t] -= 1
+                if self.items[t] < int(tokenizedOrder[i+1]):
+                    self.items[t] = 0
+                else:
+                    try:
+                        self.items[t] -= int(tokenizedOrder[i+1])
+                    except:
+                        self.items[t] -= 1
             elif t in synonyms:
                 print t
-                try:
-                    self.items[synonyms[t]] -= int(tokenizedOrder[i+1])
-                except:
-                    self.items[synonyms[t]] -= 1
+                if self.items[synonyms[t]] < int(tokenizedOrder[i+1]):
+                    self.items[synonms[t]] = 0
+                else:
+                    try:
+                        self.items[synonyms[t]] -= int(tokenizedOrder[i+1])
+                    except:
+                        self.items[synonyms[t]] -= 1
             i+=1
 
 
@@ -129,7 +136,7 @@ class Order:
 
         for item in self.items:
             if self.items[item] != 0:
-                res = res + " " + str(self.items[item]) + " " + item.replace("_"," ") + " and"
+                res = res + " " + str(self.items[item]) + " " + item.replace("_"," ") + ", "
         return res[:-3]
 
     def resetDict(self):
