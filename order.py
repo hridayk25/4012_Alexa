@@ -81,8 +81,9 @@ class Order:
         tokenizedOrder = self.modify(text)
         i = 0
         for t in tokenizedOrder:
-            possibleNumber = tokenizedOrder[i+1]
+            
             if t in self.items:
+                possibleNumber = tokenizedOrder[i+1]
                 if possibleNumber in self.unit_number:
                     self.items[t] += self.unit_number[possibleNumber]
                 else:
@@ -91,6 +92,7 @@ class Order:
                     except:
                         self.items[t] += 1
             elif t in self.synonyms:
+                possibleNumber = tokenizedOrder[i+1]
                 if possibleNumber in self.unit_number:
                     self.items[self.synonyms[t]] += self.unit_number[possibleNumber]
                 else:
@@ -105,8 +107,8 @@ class Order:
         tokenizedOrder = self.modify(text)
         i = 0
         for t in tokenizedOrder:
-            possibleNumber = tokenizedOrder[i+1]
             if t in self.items:
+                possibleNumber = tokenizedOrder[i+1]
                 if possibleNumber in self.unit_number:
                     self.items[t] -= self.unit_number[possibleNumber]
                 else:
@@ -116,6 +118,7 @@ class Order:
                         self.items[t] -= 1
                 self.items[t] = max(self.items[t],0)
             elif t in self.synonyms:
+                possibleNumber = tokenizedOrder[i+1]
                 if possibleNumber in self.unit_number:
                     self.items[self.synonyms[t]] -= self.unit_number[possibleNumber]
                 else:
