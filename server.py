@@ -1,6 +1,6 @@
 # https://stackoverflow.com/questions/2835559/parsing-values-from-a-json-file
 # https://techtutorialsx.com/2017/01/07/flask-parsing-json-data/
-from flask import Flask, request, json, render_template
+from flask import Flask, request, render_template
 from flask_ask import Ask, statement, question, session, context
 import json
 from order import Order
@@ -10,6 +10,8 @@ import datetime
 app = Flask(__name__)
 ask = Ask(app, "/")
 curOrder = Order()
+cfaimg='https://16jhl82mq2imp4wet2y0c7og-wpengine.netdna-ssl.com/wp-content/uploads/2010/01/Chick-fil-A-Logo-Update-RBMM.jpg'
+white='https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg'
 
 @app.route('/')
 def homepage():
@@ -17,19 +19,62 @@ def homepage():
 @ask.launch
 def start_skill():
     print "started skill"
-    welcome_message = "Welcome. What would you like?"
-    return question(welcome_message).standard_card(title='Welcome', text='What would you like?', large_image_url='https://16jhl82mq2imp4wet2y0c7og-wpengine.netdna-ssl.com/wp-content/uploads/2010/01/Chick-fil-A-Logo-Update-RBMM.jpg')
+    message = "What would you like?"
+    welcome_title = "Welcome"
+    welcome_message = render_template('welcome')
+    out = question(welcome_message).standard_card(title='Welcome', text='Testing')
+    textContent = {
+	'primaryText': {
+	'text':message,
+	'type':'RichText'
+	}	
+    }
     if context.System.device.supportedInterfaces.Display:
-        print("Success")
+        out.display_render(
+            template='BodyTemplate2',
+            title=welcome_title,
+            token=None,
+            backButton='HIDDEN',
+	    image=cfaimg,
+	    text=textContent,
+	    hintText="I want a chiken sandwich and a lemonade."
+        )
+    return out
+    # return question(welcome_message)
+    # .standard_card(title='Welcome', text='What would you like?', large_image_url=cfaimg)
 @ask.intent("Shengus")
 def orderFood():
     print "order intent invoked"
+    myListItems = []
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.addFromText(text)
     myOrd = curOrder.printOrder()
-    return question(msg + myOrd)
+    myList = myOrd[1:-1].split(" and ")
+    for item in myList:
+	listItem = {
+		'token': None,
+		'textContent': {
+			'primaryText': {
+				'text':item,
+				'type':"RichText"
+			}
+		}	
+	}
+	myListItems.append(listItem)
+    print myListItems
+    msg = msg + myOrd
+    render = render_template('results', results=msg)
+    out = question(render).standard_card(title='Your Order:', text='Testing')
+    if context.System.device.supportedInterfaces.Display:
+	out.list_display_render(
+		template = 'ListTemplate1',
+		title = 'Your Order:',
+		backButton = 'HIDDEN',
+		listItems = myListItems
+	)
+    return out 
     # return statement("heres your food")
 @ask.intent("YesIntent")
 def yes_intent():
