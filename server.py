@@ -51,7 +51,7 @@ def orderFood():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
-    myList = myOrd[1:-1].split(" and ")
+    myList = myOrd[1:-1].split(",")
     for item in myList:
 	listItem = {
 		'token': None,
@@ -72,7 +72,7 @@ def orderFood():
 		template = 'ListTemplate1',
 		title = 'Your Order:',
 		backButton = 'HIDDEN',
-		listItems = myListItems
+		listItems = myListItems,
 		hintText="add Instructions here"
 	)
     return out 
@@ -104,23 +104,76 @@ def fallback_intent():
 
 @ask.intent("addIntent")
 def add_intent():
+    myListItems = []
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
     print(text)
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
-    return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    myList = myOrd[1:-1].split(",")
+    for item in myList:
+	listItem = {
+		'token': None,
+		'textContent': {
+			'primaryText': {
+				'text':item,
+				'type':"RichText"
+			}
+		}	
+	}
+	myListItems.append(listItem)
+    print myListItems
+    msg = msg + myOrd
+    render = render_template('results', results=msg)
+    out = question(render).standard_card(title='Your Order:', text='Testing')
+    if context.System.device.supportedInterfaces.Display:
+	out.list_display_render(
+		template = 'ListTemplate1',
+		title = 'Your Order:',
+		backButton = 'HIDDEN',
+		listItems = myListItems,
+		hintText="add Instructions here"
+	)
+    return out 
+    # return statement("heres your food")
 
 @ask.intent("removeIntent")
 def remove_intent():
+    myListItems = []
     msg = "Did you want to order the following items?"
     food = request.get_json()
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.remove_items(text)
     myOrd = curOrder.printOrder()
-    return question(
-        msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    myList = myOrd[1:-1].split(",")
+    for item in myList:
+	listItem = {
+		'token': None,
+		'textContent': {
+			'primaryText': {
+				'text':item,
+				'type':"RichText"
+			}
+		}	
+	}
+	myListItems.append(listItem)
+    print myListItems
+    msg = msg + myOrd
+    render = render_template('results', results=msg)
+    out = question(render).standard_card(title='Your Order:', text='Testing')
+    if context.System.device.supportedInterfaces.Display:
+	out.list_display_render(
+		template = 'ListTemplate1',
+		title = 'Your Order:',
+		backButton = 'HIDDEN',
+		listItems = myListItems,
+		hintText="add Instructions here"
+	)
+    return out 
+    # return statement("heres your food")
 
 
 @ask.intent("cancelOrderIntent")
