@@ -40,9 +40,9 @@ Chicken Salad,Sides,3.45,350
 Cole Slaw,Sides,2.85,310
 Cornbread,Sides,2.85,380
 Waffle Potato Chips,Sides,1.85,220
-Nuggets KM,Kid's Meal,4.75,270
-Chicken Strips KM,Kid's Meal,4.69,320
-Grilled Nuggets KM,Kid's Meal,5.25,190
+Nuggets Kids Meal,Kid's Meal,4.75,270
+Chicken Strips Kids Meal,Kid's Meal,4.69,320
+Grilled Nuggets Kids Meal,Kid's Meal,5.25,190
 Chocolate Milkshake,Treats,3.39,580
 Cookies and Cream Milkshake,Treats,3.39,610
 Strawberry Milkshake,Treats,3.39,610
@@ -78,5 +78,5 @@ Light Italian Dressing,Dressings,0,25
 Light Balsamic Vinaigrette,Dressings,0,80
 Fat Free Honey Mustard Dressing,Dressings,0,90
 Garden Herb Ranch Dressing,Dressings,0,280
-Avacado Lime Dressing,Dressings,0,310
+Avocado Lime Dressing,Dressings,0,310
 Chili Lime Vinaigrette,Dressings,0,60

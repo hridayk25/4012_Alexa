@@ -31,16 +31,20 @@ def orderFood():
     # return statement("heres your food")
 @ask.intent("CompleteIntent")
 def complete_intent():
+    # Get the price
+    price = curOrder.getTotalCost()
     # log the order
     f = open('order.log','a')
     f.write(str(datetime.datetime.now()))
     f.write('\t')
     f.write(curOrder.printOrder())
+    f.write('\t')
+    f.write(str(price))
     f.write('\n')
     f.close()
 
     curOrder.resetDict()
-    return question("Your order has been placed. To order something else, say new order")
+    return question("Your order has been placed. Your total for this order is $%.2f. To order something else, say new order"%price)
 @ask.intent("NoIntent")
 def no_intent():
     bye = "bye"
