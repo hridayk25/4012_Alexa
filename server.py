@@ -10,8 +10,8 @@ import datetime
 app = Flask(__name__)
 ask = Ask(app, "/")
 curOrder = Order()
-cfaimg='https://16jhl82mq2imp4wet2y0c7og-wpengine.netdna-ssl.com/wp-content/uploads/2010/01/Chick-fil-A-Logo-Update-RBMM.jpg'
-white='https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg'
+cfaimg='https://i.imgur.com/NXnRoK5.png'
+red='https://imgur.com/e25PRAg.png'
 
 @app.route('/')
 def homepage():
@@ -35,9 +35,9 @@ def start_skill():
             title=welcome_title,
             token=None,
             backButton='HIDDEN',
+            background_image_url=red,
 	    image=cfaimg,
 	    text=textContent,
-	    hintText="I want a chiken sandwich and a lemonade."
         )
     return out
     # return question(welcome_message)
@@ -51,15 +51,28 @@ def orderFood():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
-    myList = myOrd[1:-1].split(",")
-    for item in myList:
+    myImages = curOrder.getImages()
+    myList = myOrd.split(",")
+    for item, image in zip(myList, myImages):
 	listItem = {
 		'token': None,
+                'image': {
+			'sources': [
+				{
+					"url":image+'.png'
+				}
+			]
+		},
+                        
 		'textContent': {
 			'primaryText': {
 				'text':item,
 				'type':"RichText"
-			}
+			},
+#			'secondaryText': {
+#				'text':item,
+#				'type':"RichText"
+#			}
 		}	
 	}
 	myListItems.append(listItem)
@@ -72,8 +85,8 @@ def orderFood():
 		template = 'ListTemplate1',
 		title = 'Your Order:',
 		backButton = 'HIDDEN',
+                background_image_url=red,
 		listItems = myListItems,
-		hintText="add Instructions here"
 	)
     return out 
     # return statement("heres your food")
@@ -115,11 +128,20 @@ def add_intent():
     print(text)
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
+    myImages = curOrder.getImages()
     # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
-    myList = myOrd[1:-1].split(",")
-    for item in myList:
+    myList = myOrd.split(",")
+    for item, image in zip(myList, myImages):
 	listItem = {
 		'token': None,
+                'image': {
+			'sources': [
+				{
+					"url":image+'.png'
+				}
+			]
+		},
+                        
 		'textContent': {
 			'primaryText': {
 				'text':item,
@@ -137,8 +159,8 @@ def add_intent():
 		template = 'ListTemplate1',
 		title = 'Your Order:',
 		backButton = 'HIDDEN',
+                background_image_url=red,
 		listItems = myListItems,
-		hintText="add Instructions here"
 	)
     return out 
     # return statement("heres your food")
@@ -151,8 +173,9 @@ def remove_intent():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.remove_items(text)
     myOrd = curOrder.printOrder()
+    myImages = curOrder.getImages()
     # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
-    myList = myOrd[1:-1].split(",")
+    myList = myOrd.split(",")
     for item in myList:
 	listItem = {
 		'token': None,
@@ -173,8 +196,8 @@ def remove_intent():
 		template = 'ListTemplate1',
 		title = 'Your Order:',
 		backButton = 'HIDDEN',
+                background_image_url=red,
 		listItems = myListItems,
-		hintText="add Instructions here"
 	)
     return out 
     # return statement("heres your food")

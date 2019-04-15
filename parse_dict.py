@@ -8,11 +8,14 @@ def init_base_order_tokenizer():
     food_tokenizer = MWETokenizer()
     food_items = {}
     prices_items = {}
+    image_items = {}
     with open('sheet1.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             food_item = row['Menu Item'].replace(' ', '_').lower()
             price = float(row['Price'])
+            image = row['Image']
+            image_items[food_item] = image 
             food_items[food_item] = 0
             prices_items[food_item] = price
 
@@ -20,5 +23,5 @@ def init_base_order_tokenizer():
             if len(items_stem) > 1:
                 food_tokenizer.add_mwe(tuple(items_stem))
     
-    return food_tokenizer, food_items, prices_items
+    return food_tokenizer, food_items, prices_items, image_items
 
