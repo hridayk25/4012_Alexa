@@ -25,19 +25,17 @@ def start_skill():
     out = question(welcome_message).standard_card(title='Welcome', text='Testing')
     textContent = {
 	'primaryText': {
-	'text':message,
+	'text': message,
 	'type':'RichText'
 	}	
     }
     if context.System.device.supportedInterfaces.Display:
         out.display_render(
-            template='BodyTemplate2',
-            title=welcome_title,
-            token=None,
+            template='BodyTemplate7',
             backButton='HIDDEN',
             background_image_url=red,
 	    image=cfaimg,
-	    text=textContent,
+#	    text=textContent,
         )
     return out
     # return question(welcome_message)
