@@ -7,7 +7,7 @@ import sys
 ## cannot handle waffle fries
 class Order:
     def __init__(self):
-        self.foodTokenizer, self.items, self.prices_items = parse_dict.init_base_order_tokenizer()
+        self.foodTokenizer, self.items, self.prices_items, self.cal_items, self.image_items = parse_dict.init_base_order_tokenizer()
         self.unit_number = {'to': 2, 'too': 2, 'for': 4, 'all': sys.maxint}
         self.synonyms = {'lemonad': 'lemonade', 'milkshak': 'vanilla_milkshake', 'fri': 'waffle_potato_fries',
                     'spici_chicken_sandwich': 'spicy_chicken_sandwich',
@@ -166,6 +166,19 @@ class Order:
                 total_cost += (self.prices_items[item] * self.items[item])
         total_cost = 1.08 * total_cost
         return total_cost
+
+    def getItemData(self):
+	imageDict = [] 
+	priceDict = []
+        calDict = []
+	quantDict = []
+        for item in self.items:
+            if self.items[item] != 0:
+                imageDict.append(self.image_items[item])
+		priceDict.append(self.prices_items[item])
+                calDict.append(self.cal_items[item])
+		quantDict.append(self.items[item])
+	return imageDict, priceDict, calDict, quantDict
 
     def resetDict(self):
         for item in self.items:

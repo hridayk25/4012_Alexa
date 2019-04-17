@@ -10,8 +10,8 @@ import datetime
 app = Flask(__name__)
 ask = Ask(app, "/")
 curOrder = Order()
-cfaimg='https://16jhl82mq2imp4wet2y0c7og-wpengine.netdna-ssl.com/wp-content/uploads/2010/01/Chick-fil-A-Logo-Update-RBMM.jpg'
-white='https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg'
+cfaimg='https://i.imgur.com/NXnRoK5.png'
+red='https://imgur.com/e25PRAg.png'
 
 @app.route('/')
 def homepage():
@@ -26,18 +26,17 @@ def start_skill():
     out = question(welcome_message).standard_card(title='Welcome', text='Testing')
     textContent = {
 	'primaryText': {
-	'text':message,
+	'text': message,
 	'type':'RichText'
 	}	
     }
     if context.System.device.supportedInterfaces.Display:
         out.display_render(
-            template='BodyTemplate2',
-            title=welcome_title,
-            token=None,
+            template='BodyTemplate7',
             backButton='HIDDEN',
+            background_image_url=red,
 	    image=cfaimg,
-	    text=textContent
+#	    text=textContent,
         )
     return out
     # return question(welcome_message)
@@ -51,37 +50,45 @@ def orderFood():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
+    myImages, myPrices, myCals, myQuants = curOrder.getItemData()
     myList = myOrd.split(",")
-    print(myOrd)
-    print(myList)
-    for item in myList:
+    for item, image, price, cal, quant in zip(myList, myImages, myPrices, myCals, myQuants):
+	if quant > 1:
+		info = '$'+str(price)+' | '+str(round(cal,0))+' calories (each)',
+	else:
+		info = '$'+str(price)+' | '+str(round(cal,0))+' calories',
+
 	listItem = {
-		'token': None,
-        "image": {
-          "sources": [
-            {
-              "url": "https://www.cfacdn.com/img/order/COM/Menu_Refresh/Breakfast/Breakfast%20Desktop/_0000s_0000_Stack620_0000_CFA_1605_60_Biscuit_Chicken_PROD_2155_1240px.png"
-            }
-            ],
-        },
+                'image': {
+			'sources': [
+				{
+					"url":image+'.png'
+				}
+			]
+		},
 		'textContent': {
 			'primaryText': {
 				'text':item,
+				'type':"RichText"
+			},
+			'secondaryText': {
+				'text':info[0],
 				'type':"RichText"
 			}
 		}	
 	}
 	myListItems.append(listItem)
-    print myListItems
     msg = "My pleasure, is this correct?"
+    myTotal = curOrder.getTotalCost()
     render = render_template('results', results=msg)
     out = question(render).standard_card(title='Your Order:', text='Testing')
     if context.System.device.supportedInterfaces.Display:
 	out.list_display_render(
 		template = 'ListTemplate1',
-		title = 'Your Order:',
+		title = 'Your Order Total: $'+str(round(myTotal,2)),
 		backButton = 'HIDDEN',
-		listItems = myListItems
+        background_image_url=red,
+		listItems = myListItems,
 	)
     return out 
     # return statement("heres your food")
@@ -153,32 +160,47 @@ def add_intent():
     print(text)
     curOrder.add_items(text)
     myOrd = curOrder.printOrder()
-    # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    myImages, myPrices, myCals, myQuants = curOrder.getItemData()
     myList = myOrd.split(",")
-    for item in myList:
-	listItem = {
-		'token': None,
-		'textContent': {
-			'primaryText': {
-				'text':item,
-				'type':"RichText"
-			}
-		}	
-	}
-	myListItems.append(listItem)
-    print myListItems
+    for item, image, price, cal, quant in zip(myList, myImages, myPrices, myCals, myQuants):
+    	if quant > 1:
+    		info = '$'+str(price)+' | '+str(cal)+' calories (each)',
+    	else:
+    		info = '$'+str(price)+' | '+str(cal)+' calories',
+    	listItem = {
+                    'image': {
+    			'sources': [
+    				{
+    					"url":image+'.png'
+    				}
+    			]
+    		},
+                            
+    		'textContent': {
+    			'primaryText': {
+    				'text':item,
+    				'type':"RichText"
+    			},
+    			'secondaryText': {
+    				'text':info[0],
+    				'type':"RichText"
+    			}
+    		}	
+    	}
+    	myListItems.append(listItem)
     msg = "Is this correct?"
+    myTotal = curOrder.getTotalCost()
     render = render_template('results', results=msg)
     out = question(render).standard_card(title='Your Order:', text='Testing')
     if context.System.device.supportedInterfaces.Display:
 	out.list_display_render(
 		template = 'ListTemplate1',
-		title = 'Your Order:',
+		title = 'Your Order Total: $'+str(round(myTotal,2)),
 		backButton = 'HIDDEN',
-		listItems = myListItems
+        background_image_url=red,
+		listItems = myListItems,
 	)
-    return out 
-    # return statement("heres your food")
+    return out
 
 @ask.intent("removeIntent")
 def remove_intent():
@@ -188,32 +210,47 @@ def remove_intent():
     text = food["request"]["intent"]["slots"]["food"]["value"]
     curOrder.remove_items(text)
     myOrd = curOrder.printOrder()
-    # return question(msg + myOrd + ", to add to your order say add, to remove an item say remove, to finalize order say complete. ")
+    myImages, myPrices, myCals, myQuants = curOrder.getItemData()
     myList = myOrd.split(",")
-    for item in myList:
-	listItem = {
-		'token': None,
-		'textContent': {
-			'primaryText': {
-				'text':item,
-				'type':"RichText"
-			}
-		}	
-	}
-	myListItems.append(listItem)
-    print myListItems
+    for item, image, price, cal, quant in zip(myList, myImages, myPrices, myCals, myQuants):
+    	if quant > 1:
+    		info = '$'+str(price)+' | '+str(cal)+' calories (each)',
+    	else:
+    		info = '$'+str(price)+' | '+str(cal)+' calories',
+    	listItem = {
+                    'image': {
+    			'sources': [
+    				{
+    					"url":image+'.png'
+    				}
+    			]
+    		},
+                            
+    		'textContent': {
+    			'primaryText': {
+    				'text':item,
+    				'type':"RichText"
+    			},
+    			'secondaryText': {
+    				'text':info[0],
+    				'type':"RichText"
+    			}
+    		}	
+    	}
+    	myListItems.append(listItem)
     msg = "Is this correct?"
+    myTotal = curOrder.getTotalCost()
     render = render_template('results', results=msg)
     out = question(render).standard_card(title='Your Order:', text='Testing')
     if context.System.device.supportedInterfaces.Display:
 	out.list_display_render(
 		template = 'ListTemplate1',
-		title = 'Your Order:',
+		title = 'Your Order Total: $'+str(round(myTotal,2)),
 		backButton = 'HIDDEN',
-		listItems = myListItems
+        background_image_url=red,
+		listItems = myListItems,
 	)
-    return out 
-
+    return out
 
 @ask.intent("cancelOrderIntent")
 def cancel_order_intent():
