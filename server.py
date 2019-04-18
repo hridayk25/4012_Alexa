@@ -118,13 +118,13 @@ def complete_intent():
 def no_intent():
     print "No intent invoked"
     bye = "bye"
-    return question("You can now modify your order. To add an item to your order, say 'add'. To remove an item from your order, say 'remove'.")
+    return question("At any point you can modify your order. To add an item to your order, say 'add'. To remove an item from your order, say 'remove'.")
 
 @ask.intent("NewOrder")
 def newOrder():
     print "New order intent invoked"
     curOrder.resetDict()
-    message = "Order increment. Welcome. What would you like?"
+    message = "Welcome. What would you like?"
     welcome_title = "Welcome"
     welcome_message = render_template('welcome')
     out = question(welcome_message).standard_card(title='Welcome', text='Testing')
@@ -136,9 +136,9 @@ def newOrder():
     }
     if context.System.device.supportedInterfaces.Display:
         out.display_render(
-            template='BodyTemplate2',
-            title=welcome_title,
+            template='BodyTemplate7',
             token=None,
+	    background_image_url=red,
             backButton='HIDDEN',
         image=cfaimg,
         text=textContent

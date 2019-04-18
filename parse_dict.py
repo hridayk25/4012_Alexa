@@ -25,6 +25,13 @@ def init_base_order_tokenizer():
             items_stem = [p.stem(i) for i in row['Menu Item'].lower().split(' ')]
             if len(items_stem) > 1:
                 food_tokenizer.add_mwe(tuple(items_stem))
-    
+
+    with open('mwe.csv') as csvfile:
+	reader = csv.DictReader(csvfile)
+	for row in reader:
+            items_stem = [p.stem(i) for i in row['Menu Item'].lower().split(' ')]
+            if len(items_stem) > 1:
+                food_tokenizer.add_mwe(tuple(items_stem))
+		
     return food_tokenizer, food_items, prices_items, cal_items, image_items
 

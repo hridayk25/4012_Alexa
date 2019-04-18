@@ -1,5 +1,5 @@
 Menu Item,Category,Price,Calories,Image
-Chick fil A Chicken Biscuit,Breakfast,2.65,440,https://imgur.com/cTtgZlT
+Chicken Biscuit,Breakfast,2.65,440,https://imgur.com/cTtgZlT
 Chicken Minis,Breakfast,3.49,87.5,https://imgur.com/G8xjT42
 Egg White Grill,Breakfast,3.95,300,https://imgur.com/tVLwLmk
 Bacon Egg and Cheese Biscuit,Breakfast,3.09,440,https://imgur.com/SqM0v4v
@@ -34,7 +34,7 @@ Chicken Tortilla Soup,Sides,4.15,340,https://imgur.com/nf82R6c
 Superfood Side,Sides,2.99,140,https://imgur.com/yfCmlTa
 Greek Yogurt Parfait,Sides,3.29,250,https://imgur.com/eGZwtPq
 Fruit Cup,Sides,3.25,50,https://imgur.com/BzYza7n
-Buddy's Apple Sauce,Sides,1.95,60,https://imgur.com/uhDhkB0
+Apple Sauce,Sides,1.95,60,https://imgur.com/uhDhkB0
 Carrot Raisin Salad,Sides,2.85,250,
 Chicken Salad,Sides,3.45,350,
 Cole Slaw,Sides,2.85,310,
@@ -50,16 +50,15 @@ Vanilla Milkshake,Treats,3.39,520,https://imgur.com/Roet99N
 Frosted Coffee,Treats,3.39,240,https://imgur.com/cl1uFwD
 Frosted Lemonade,Treats,3.39,320,https://imgur.com/jew9WUd
 Chocolate Chunk Cookie,Treats,1.29,350,https://imgur.com/nk8qx04
-Icedream Cone,Treats,1.39,170,https://imgur.com/71iLhFI
+Ice Dream Cone,Treats,1.39,170,https://imgur.com/71iLhFI
 Freshly Brewed Iced Tea Sweetened,Drinks,1.75,120,https://imgur.com/eozdiTq
 Lemonade,Drinks,1.99,220,https://imgur.com/vzdo2h3
 Coca Cola,Drinks,1.75,190,https://imgur.com/TQjQUES
-Dr. Pepper,Drinks,1.75,180,https://imgur.com/GxdRcA2
 Dasani Bottled Water,Drinks,1.75,0,https://imgur.com/2q1CBmb
 Honest Kids Apple Juice,Drinks,1.35,35,https://imgur.com/ZDIsdWH
 Simply Orange,Drinks,2.55,160,https://imgur.com/rIZQHah
-1% Chocolate Milk,Drinks,1.35,150,https://imgur.com/mSA6goK
-1% White Milk,Drinks,1.35,90,https://imgur.com/JaotMIg
+Chocolate Milk,Drinks,1.35,150,https://imgur.com/mSA6goK
+White Milk,Drinks,1.35,90,https://imgur.com/JaotMIg
 Coffee,Drinks,1.75,5,https://imgur.com/PBIpCjP
 Iced Coffee,Drinks,2.69,140,https://imgur.com/Ijsx7XJ
 Gallon Beverages,Drinks,11,2090,https://imgur.com/7bfv9Y0
