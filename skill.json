@@ -1,0 +1,162 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "cfa",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "NoIntent",
+                    "slots": [],
+                    "samples": [
+                        "end",
+                        "exit",
+                        "no"
+                    ]
+                },
+                {
+                    "name": "CompleteIntent",
+                    "slots": [],
+                    "samples": [
+                        "yes sure",
+                        "sure",
+                        "yeah thats good",
+                        "yes thats correct",
+                        "yeah thats correct",
+                        "yeah thats right",
+                        "yeehaw",
+                        "of course",
+                        "yes",
+                        "complete"
+                    ]
+                },
+                {
+                    "name": "InitiateOrder",
+                    "slots": [
+                        {
+                            "name": "food",
+                            "type": "AMAZON.Food"
+                        }
+                    ],
+                    "samples": [
+                        "I wanna {food}",
+                        "gimme {food}",
+                        "may I have {food}",
+                        "can I get {food}",
+                        "I want {food}"
+                    ]
+                },
+                {
+                    "name": "NewOrder",
+                    "slots": [],
+                    "samples": [
+                        "new order"
+                    ]
+                },
+                {
+                    "name": "addIntent",
+                    "slots": [
+                        {
+                            "name": "food",
+                            "type": "AMAZON.Food"
+                        }
+                    ],
+                    "samples": [
+                        "can i add a {food}",
+                        "can i get a {food}",
+                        "another {food}",
+                        "give me {food}",
+                        "add {food}"
+                    ]
+                },
+                {
+                    "name": "removeIntent",
+                    "slots": [
+                        {
+                            "name": "food",
+                            "type": "AMAZON.Food"
+                        }
+                    ],
+                    "samples": [
+                        "can you remove {food}",
+                        "can i remove {food}",
+                        "scratch {food}",
+                        "scrap {food}",
+                        "take off {food}",
+                        "take out {food}",
+                        "i do not want {food}",
+                        "i dont want {food}",
+                        "remove {food}",
+                        "delete {food}"
+                    ]
+                },
+                {
+                    "name": "cancelOrderIntent",
+                    "slots": [],
+                    "samples": [
+                        "cancel"
+                    ]
+                },
+                {
+                    "name": "AMAZON.MoreIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateSettingsIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NextIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.PageUpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.PageDownIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.PreviousIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollRightIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollDownIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollLeftIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollUpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
