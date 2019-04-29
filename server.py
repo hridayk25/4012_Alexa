@@ -19,6 +19,7 @@ def homepage():
 
 @ask.launch
 def start_skill():
+    curOrder.resetDict()
     print "started skill"
     message = "What would you like?"
     welcome_title = "Welcome"
@@ -111,8 +112,8 @@ def complete_intent():
     if price == 0.0:
         return statement("You do not have enough items to complete an order. Exiting your order.")
     else:
-        message = "Your order has been placed. Your total is $%.2f .To order something else, say new order"%price
-        return question(message)
+        message = "Your order has been placed. Your total is $%.2f . Thank you for choosing Chick-Fil-A."%price
+        return statement(message)
 
 @ask.intent("NoIntent")
 def no_intent():
